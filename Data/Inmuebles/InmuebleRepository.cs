@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using NetKubernetesAngular.Middleware;
 using NetKubernetesAngular.Models;
 using NetKubernetesAngular.Token;
 using System.Net;
@@ -29,18 +30,18 @@ namespace NetKubernetesAngular.Data.Inmuebles
             var usuario = await _userManager.FindByNameAsync(_usuarioSesion.ObtenerUsuarioSesion());
             if (usuario is null)
             {
-                //throw new MiddlewareException(
-                //    HttpStatusCode.Unauthorized,
-                //    new { mensaje = "El usuario no es valido para hacer esta insercion" }
-                //);
+                throw new MiddlewareException(
+                    HttpStatusCode.Unauthorized,
+                    new { mensaje = "El usuario no es valido para hacer esta insercion" }
+                );
             }
 
             if (inmueble is null)
             {
-                //throw new MiddlewareException(
-                //    HttpStatusCode.BadRequest,
-                //    new { mensaje = "Los datos del inmueble son incorrectos" }
-                //);
+                throw new MiddlewareException(
+                    HttpStatusCode.BadRequest,
+                    new { mensaje = "Los datos del inmueble son incorrectos" }
+                );
             }
 
 

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using NetKubernetesAngular.Dtos.UsuarioDto;
+using NetKubernetesAngular.Middleware;
 using NetKubernetesAngular.Models;
 using NetKubernetesAngular.Token;
 using System.Net;
@@ -51,10 +52,10 @@ namespace NetKubernetesAngular.Data.Usuarios
             var usuario = await _userManager.FindByNameAsync(_usuarioSesion.ObtenerUsuarioSesion());
             if (usuario is null)
             {
-                //throw new MiddlewareException(
-                //    HttpStatusCode.Unauthorized,
-                //    new { mensaje = "El usuario del token no existe en la base de datos" }
-                //);
+                throw new MiddlewareException(
+                    HttpStatusCode.Unauthorized,
+                    new { mensaje = "El usuario del token no existe en la base de datos" }
+                );
             }
             return TransformerUserToUserDto(usuario!);
         }
@@ -64,10 +65,10 @@ namespace NetKubernetesAngular.Data.Usuarios
             var usuario = await _userManager.FindByEmailAsync(request.Email!);
             if (usuario is null)
             {
-                //throw new MiddlewareException(
-                //    HttpStatusCode.Unauthorized,
-                //    new { mensaje = "El email del usuario no existe en mi base de datos" }
-                //);
+                throw new MiddlewareException(
+                    HttpStatusCode.Unauthorized,
+                    new { mensaje = "El email del usuario no existe en mi base de datos" }
+                );
             }
 
 
@@ -77,10 +78,10 @@ namespace NetKubernetesAngular.Data.Usuarios
                 return TransformerUserToUserDto(usuario);
             }
 
-            //throw new MiddlewareException(
-            //     HttpStatusCode.Unauthorized,
-            //     new { mensaje = "Las credenciales son incorrectas" }
-            //);
+            throw new MiddlewareException(
+                 HttpStatusCode.Unauthorized,
+                 new { mensaje = "Las credenciales son incorrectas" }
+            );
 
 
             throw new System.Exception("No se pudo loguear el usuario");
@@ -92,20 +93,20 @@ namespace NetKubernetesAngular.Data.Usuarios
             var existeEmail = await _contexto.Users.Where(x => x.Email == request.Email).AnyAsync();
             if (existeEmail)
             {
-                //throw new MiddlewareException(
-                //    HttpStatusCode.BadRequest,
-                //    new { mensaje = "El email del usuario ya existe en la base de datos" }
-                //);
+                throw new MiddlewareException(
+                    HttpStatusCode.BadRequest,
+                    new { mensaje = "El email del usuario ya existe en la base de datos" }
+                );
             }
 
 
             var existeUsername = await _contexto.Users.Where(x => x.UserName == request.UserName).AnyAsync();
             if (existeUsername)
             {
-                //throw new MiddlewareException(
-                //    HttpStatusCode.BadRequest,
-                //    new { mensaje = "El username del usuario ya existe en la base de datos" }
-                //);
+                throw new MiddlewareException(
+                    HttpStatusCode.BadRequest,
+                    new { mensaje = "El username del usuario ya existe en la base de datos" }
+                );
             }
 
 

@@ -1,4 +1,6 @@
 
+using NetKubernetesAngular.Middleware;
+
 namespace NetKubernetesAngular
 {
     public class Program
@@ -22,6 +24,9 @@ namespace NetKubernetesAngular
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseMiddleware<ManagerMiddleware>();
+
 
             app.UseAuthentication();
 
