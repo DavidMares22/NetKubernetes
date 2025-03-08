@@ -68,7 +68,7 @@ namespace NetKubernetesAngular.Data.Inmuebles
         {
             return await _contexto.Inmuebles!.FirstOrDefaultAsync(x => x.Id == id)!;
         }
-
+        //By checking for >= 0, the method ensures that any unexpected negative result is treated as a failure.
         public async Task<bool> SaveChanges()
         {
             return ((await _contexto.SaveChangesAsync()) >= 0);
