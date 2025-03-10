@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { TestCompComponent } from './test-comp/test-comp.component';
+import { environment } from '@src/environments/environment.prod';
  
 @Component({
   selector: 'app-root',

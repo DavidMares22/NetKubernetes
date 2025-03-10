@@ -2,6 +2,20 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+
+    // The "baseUrl" option in the tsconfig.json file specifies the base directory for non-relative module imports.
+    // By setting "baseUrl" to "src", it allows you to use absolute imports from the "src" directory, 
+    // making the import statements cleaner and easier to manage.
+    "baseUrl": "src",
+    "paths": {
+      "@app/*": ["app/*"],
+      // The '@src/*' alias allows you to import files from the 'src' directory
+      // using '@src/...' instead of relative paths like '../../src/...'.
+      // The '../src/*' path indicates that the 'src' directory is one level up
+      // from the directory containing this 'tsconfig.json' file.
+      "@src/*": ["../src/*"]
+    },
+
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
     "strict": true,
@@ -21,7 +35,9 @@
     "lib": [
       "ES2022",
       "dom"
-    ]
+    ],
+    // Enables importing JSON modules in TypeScript files, allowing you to import .json files and use their content as typed objects.
+    "resolveJsonModule": true
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

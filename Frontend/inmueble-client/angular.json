@@ -13,13 +13,29 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/inmueble-client",
+            "outputPath": "dist",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
               "zone.js"
             ],
             "tsConfig": "tsconfig.app.json",
+
+            "budgets": [
+              {
+                "type": "initial",
+                "maximumWarning": "500kb",
+                "maximumError": "1mb"
+              },
+              {
+                "type": "anyComponentStyle",
+                "maximumWarning": "2kb",
+                "maximumError": "4kb"
+              }
+            ],
+            "outputHashing": "all",
+            "optimization": false,
+            "sourceMap": true,
             "assets": [
               "src/favicon.ico",
               "src/assets"
@@ -30,37 +46,41 @@
             "scripts": []
           },
           "configurations": {
-            "production": {
-              "budgets": [
+            "prod": {
+            "optimization": true,
+            "sourceMap": false,
+              "fileReplacements": [
                 {
-                  "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
                 }
-              ],
-              "outputHashing": "all"
+              ]
+             
             },
-            "development": {
-              "optimization": false,
-              "extractLicenses": false,
-              "sourceMap": true
+            "dev": {
+
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.dev.ts"
+                }
+              ]
+              
             }
-          },
-          "defaultConfiguration": "production"
+          }
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "inmueble-client:build",
+            "port": 5200
+          },
           "configurations": {
-            "production": {
-              "buildTarget": "inmueble-client:build:production"
+            "prod": {
+              "buildTarget": "inmueble-client:build:prod"
             },
-            "development": {
-              "buildTarget": "inmueble-client:build:development"
+            "dev": {
+              "buildTarget": "inmueble-client:build:dev"
             }
           },
           "defaultConfiguration": "development"
