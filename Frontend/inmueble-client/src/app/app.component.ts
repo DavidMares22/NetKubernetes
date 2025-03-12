@@ -1,16 +1,21 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
-import { TestCompComponent } from './test-comp/test-comp.component';
-import { environment } from '@src/environments/environment.prod';
- 
+import { Component, OnInit } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+
 @Component({
   selector: 'app-root',
-  standalone: true,
-  imports: [CommonModule, RouterOutlet, TestCompComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
-  title = 'inmueble-client';
+export class AppComponent implements OnInit {
+  title = 'your-app';
+
+
+  constructor(private firestore: AngularFirestore) {}
+
+  ngOnInit() {
+    this.firestore.collection('test').stateChanges().subscribe(personas => {
+      console.log(personas.map(persona => persona.payload.doc.data()));
+    }
+    );
+  }
 }
