@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SpinnerComponent } from './spinner.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 
@@ -9,7 +10,11 @@ import { SpinnerComponent } from './spinner.component';
     SpinnerComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    MatProgressSpinnerModule
+  ],
+  exports: [
+    SpinnerComponent
   ]
 })
 export class SpinnerModule { }

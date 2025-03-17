@@ -7,7 +7,8 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  title = 'your-app';
+  title = 'client app';
+  showSpinner = false;
 
 
   constructor(private firestore: AngularFirestore) {}
@@ -15,7 +16,11 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.firestore.collection('test').stateChanges().subscribe(personas => {
       console.log(personas.map(persona => persona.payload.doc.data()));
-    }
-    );
+    });
   }
+
+  onToggleSpinner() : void {
+    this.showSpinner = !this.showSpinner;
+  }
+
 }
