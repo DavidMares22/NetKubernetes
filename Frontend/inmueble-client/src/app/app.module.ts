@@ -12,7 +12,7 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 
 import { AppComponent } from './app.component';
 import { environment } from '@src/environments/environment';
-import { IndicatorsModule } from './shared';
+import { IndicatorsModule, PopupsModule } from './shared';
 
 @NgModule({
   declarations: [
@@ -31,6 +31,7 @@ import { IndicatorsModule } from './shared';
     AngularFireStorageModule,
 
     IndicatorsModule,
+    PopupsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
