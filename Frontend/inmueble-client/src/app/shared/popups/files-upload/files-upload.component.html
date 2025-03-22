@@ -5,7 +5,9 @@
 
     <div class="files-upload__content">
 
-        <div class="dropzone">
+        <div class="dropzone" appDropZone 
+        (hovered)="toggleHover($event)"
+        [class.dropzone__hovered]="isHovering">
             <div class="dropzone__label">Drop your files here</div>
             <div class="dropzone__file">
                 <label for="" class="file">
