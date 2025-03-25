@@ -3,4 +3,4 @@
 
 <app-spinner *ngIf="showSpinner"></app-spinner>
 
-<button appFilesUpload [multiple]="true">Subir imagenes</button>
+<button appFilesUpload [multiple]="true" (changed)="onFilesChanged($event)">Subir imagenes</button>

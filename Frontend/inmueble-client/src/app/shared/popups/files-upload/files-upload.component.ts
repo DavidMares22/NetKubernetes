@@ -9,56 +9,65 @@ export interface DialogData {
 @Component({
   selector: 'app-files-upload',
   templateUrl: './files-upload.component.html',
-  styleUrl: './files-upload.component.scss'
+  styleUrls: ['./files-upload.component.scss']
 })
 export class FilesUploadComponent implements OnInit {
 
   isHovering !: boolean;
-  files: File[] = [];
-  imageFile!: File;
-  isError!: boolean;
-  filesURLs: string[] = [];
+
+  files : File[] = [];
+  imageFile !: File;
+  isError !: boolean;
+
+  filesUrls : string[] = [];
 
   constructor(
-    public dialogRef: MatDialogRef<FilesUploadComponent>,
+    private dialogRef: MatDialogRef<FilesUploadComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData
   ) { }
 
   ngOnInit(): void {
   }
 
-  toggleHover(event: boolean) {
- 
+  toggleHover(event: boolean){
     this.isHovering = event;
   }
 
-  onDrop(files: FileList) {
-     this.dropGeneral(files);
+  onDrop(files: FileList): void {
+    this.dropGeneral(files)
   }
 
-  onDropFile(event: FileList | any) {  
+  onDropFile(event: FileList | any): void{
     this.dropGeneral(event.target.files);
   }
 
-  dropGeneral(files: FileList) {
+  dropGeneral(files: FileList): void {
     this.isError = false;
 
-    if(this.data.crop && files.length > 1) {
+    if(this.data.crop && files.length > 1){
       this.isError = true;
       return;
     }
 
-    for (let i = 0; i < files.length; i++) {
+    for(let i=0; i< files.length; i++){
       this.files.push(files.item(i) as File);
-      }
+    }
 
-      console.log(files);
-      
+    console.log(files);
 
   }
 
+  onUploadComplete(url: string): void {
+    this.filesUrls.push(url);
+  }
+
+  onComplete():void{
+    const res = this.data.multiple ? this.filesUrls : this.filesUrls[0];
+    this.dialogRef.close(res)
+  }
+
+  onClose():void{
+    this.dialogRef.close();
+  }
 
 }
-
-
-
