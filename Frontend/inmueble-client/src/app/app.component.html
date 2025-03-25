@@ -4,3 +4,9 @@
 <app-spinner *ngIf="showSpinner"></app-spinner>
 
 <button appFilesUpload [multiple]="true" (changed)="onFilesChanged($event)">Subir imagenes</button>
+
+<button (click)="onSuccess()">Mensaje de exito</button>
+<button (click)="onError()">Mensaje de error</button>
+
+<button class="mat-snackbar_success">test class</button>
+<button class="mat-snackbar_error">test class</button>

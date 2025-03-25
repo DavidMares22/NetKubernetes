@@ -14,6 +14,8 @@ import { AppComponent } from './app.component';
 import { environment } from '@src/environments/environment';
 import { IndicatorsModule, PopupsModule } from './shared';
 
+import { NotificationModule } from './services/notification/notification.module';
+
 @NgModule({
   declarations: [
     AppComponent
@@ -31,7 +33,8 @@ import { IndicatorsModule, PopupsModule } from './shared';
     AngularFireStorageModule,
 
     IndicatorsModule,
-    PopupsModule
+    PopupsModule,
+    NotificationModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,12 +1,22 @@
-.mat-snackbar {
+.mat-mdc-snack-bar-container.mat-snackbar_error .mdc-snackbar__surface {
+    background-color: #f44336 !important; /* Red for error */
+    color: white !important;
+  }
+  
+  .mat-mdc-snack-bar-container.mat-snackbar_success .mdc-snackbar__surface {
+    background-color: #4caf50 !important; /* Green for success */
+    color: white !important;
+  }
+  
+  .mat-snackbar {
 
     &_error {
-        background-color: $error;
-        color: $on-error;
+        background-color: $error ;
+        color: $on-error ;
     }
 
     &_success {
-        background-color: $success;
-        color: $on-success;
+        background-color: $success ;
+        color: $on-success ;
     }
 }
