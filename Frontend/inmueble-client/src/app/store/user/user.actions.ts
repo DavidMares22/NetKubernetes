@@ -8,17 +8,17 @@ export enum Types {
     INIT_UNAUTHORIZED = '[User] Init Unauthorized',
     INIT_ERROR = '[User] Init Error',
 
-    SIGIN_IN_EMAIL = '[User] Login: Start',
-    SIGIN_IN_EMAIL_SUCCESS = '[User] Login: Success',
-    SIGIN_IN_EMAIL_ERROR = '[User] Login: Error',
+    SIGN_IN_EMAIL = '[User] Login: Start',
+    SIGN_IN_EMAIL_SUCCESS = '[User] Login: Success',
+    SIGN_IN_EMAIL_ERROR = '[User] Login: Error',
 
-    SIGIN_UP_EMAIL = '[User] Sign Up con email: Start',
-    SIGIN_UP_EMAIL_SUCCESS = '[User] Sign Up con email: Success',
-    SIGIN_UP_EMAIL_ERROR = '[User] Sign Up con email: Error',
+    SIGN_UP_EMAIL = '[User] Sign Up con email: Start',
+    SIGN_UP_EMAIL_SUCCESS = '[User] Sign Up con email: Success',
+    SIGN_UP_EMAIL_ERROR = '[User] Sign Up con email: Error',
 
-    SIGIN_OUT_EMAIL = '[User]  Logout: Start',
-    SIGIN_OUT_EMAIL_SUCCESS = '[User] Logout: Success',
-    SIGIN_OUT_EMAIL_ERROR = '[User] Logout: Error',
+    SIGN_OUT_EMAIL = '[User]  Logout: Start',
+    SIGN_OUT_EMAIL_SUCCESS = '[User] Logout: Success',
+    SIGN_OUT_EMAIL_ERROR = '[User] Logout: Error',
 
 }
 
@@ -46,50 +46,50 @@ export class InitError implements Action{
 
 //LOGIN
 export class SignInEmail implements Action{
-  readonly type = Types.SIGIN_IN_EMAIL;
+  readonly type = Types.SIGN_IN_EMAIL;
   constructor(public credentials: EmailPasswordCredentials){}
 }
 
 export class SignInEmailSuccess implements Action{
-  readonly type = Types.SIGIN_IN_EMAIL_SUCCESS;
+  readonly type = Types.SIGN_IN_EMAIL_SUCCESS;
   constructor(public email: string, public user: UserResponse | null){}
 }
 
 export class SignInEmailError implements Action{
-  readonly type = Types.SIGIN_IN_EMAIL_ERROR;
+  readonly type = Types.SIGN_IN_EMAIL_ERROR;
   constructor(public error: string){}
 }
 
 //REGISTRO DE USUARIO
 export class SignUpEmail implements Action{
-  readonly type = Types.SIGIN_UP_EMAIL;
+  readonly type = Types.SIGN_UP_EMAIL;
   constructor(public user: UserCreateRequest){}
 }
 
 export class SignUpEmailSuccess implements Action{
-  readonly type = Types.SIGIN_UP_EMAIL_SUCCESS;
+  readonly type = Types.SIGN_UP_EMAIL_SUCCESS;
   constructor(public email: string, public user: UserResponse | null){}
 }
 
 export class SignUpEmailError implements Action{
-  readonly type = Types.SIGIN_UP_EMAIL_ERROR;
+  readonly type = Types.SIGN_UP_EMAIL_ERROR;
   constructor(public error: string){}
 }
 
 
 //logout o salir de sesion
 export class SignOut implements Action{
-  readonly type = Types.SIGIN_OUT_EMAIL;
+  readonly type = Types.SIGN_OUT_EMAIL;
   constructor(){}
 }
 
 export class SignOutSuccess implements Action{
-  readonly type = Types.SIGIN_OUT_EMAIL_SUCCESS;
+  readonly type = Types.SIGN_OUT_EMAIL_SUCCESS;
   constructor(){}
 }
 
 export class SignOutError implements Action{
-  readonly type = Types.SIGIN_OUT_EMAIL_ERROR;
+  readonly type = Types.SIGN_OUT_EMAIL_ERROR;
   constructor(public error: string){}
 }
 
