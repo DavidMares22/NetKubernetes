@@ -1,5 +1,5 @@
-import { createSelector, createFeatureSelector } from '@ngrx/store';
-import { UserState } from './user.reducer';
+import { createSelector, createFeatureSelector } from "@ngrx/store";
+import {UserState} from './user.reducer';
 
 export const getUserState = createFeatureSelector<UserState>('user');
 
@@ -8,12 +8,12 @@ export const getUser = createSelector(
   (state) => state.entity
 )
 
-export const getLoading = createSelector (
+export const getLoading = createSelector(
   getUserState,
-  (state) => state.entity
+  (state) => state.loading
 )
 
 export const getIsAuthorized = createSelector(
   getUserState,
-  (state) => !!state.id
+  (state) => !!state.email
 )
