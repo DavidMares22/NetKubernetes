@@ -1,43 +1,61 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { NotificationService } from './services';
+import {AngularFirestore} from '@angular/fire/compat/firestore';
+import { Router } from '@angular/router';
+import {NotificationService} from '@app/services';
+import { select, Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import * as fromRoot from './store';
+import * as fromUser from './store/user';
+
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
-  title = 'client app';
+export class AppComponent implements OnInit{
   showSpinner = false;
+  title = 'client-inmueble-app';
 
+  user$! : Observable<fromUser.UserResponse>;
+  isAuthorized$!: Observable<boolean>;
 
-  constructor(private firestore: AngularFirestore,
-    private notificationService: NotificationService
-  ) {}
+  constructor(private fs: AngularFirestore,
+    private notification: NotificationService,
+    private store: Store<fromRoot.State>,
+    private router: Router
+    ){}
 
-  ngOnInit() {
-    this.firestore.collection('test').stateChanges().subscribe(personas => {
-      console.log(personas.map(persona => persona.payload.doc.data()));
-    });
+  ngOnInit(){
 
-    
+    this.user$ = this.store.pipe(select(fromUser.getUser)) as Observable<fromUser.UserResponse>;
+    this.isAuthorized$ = this.store.pipe(select(fromUser.getIsAuthorized)) as Observable<boolean>;
+
+    //Interceptar
+    this.store.dispatch(new fromUser.Init());
+
   }
 
   onToggleSpinner() : void {
     this.showSpinner = !this.showSpinner;
   }
 
-  onFilesChanged(urls: string | string[]) {
-    console.log('urls', urls);
+  onFilesChanged(urls: string | string[]) : void {
+    console.log("Mis Url",urls);
   }
 
-  onSuccess(): void {
-    this.notificationService.success('Operación exitosa');
+  onSuccess() : void {
+    this.notification.success("El procedimiento fue exitoso");
   }
 
-  onError(): void {
-    this.notificationService.error('Operación fallida');
+  onError() : void {
+    this.notification.error("Se encontraron errores en el proceso");
+  }
+
+  onSignOut() : void {
+    localStorage.removeItem('token');
+    this.store.dispatch(new fromUser.SignOut());
+    this.router.navigate(['/auth/login']);
   }
 
 }

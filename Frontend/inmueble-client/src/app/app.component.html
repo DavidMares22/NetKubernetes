@@ -1,25 +1,17 @@
 <mat-sidenav-container>
   <mat-sidenav #menu>
-    <app-menu-list (menuToggle)="menu.toggle()"></app-menu-list>
+    <app-menu-list (menuToggle)="menu.toggle()" (signOut)="onSignOut()"
+    [isAuthorized] = "isAuthorized$ | async"
+    ></app-menu-list>
   </mat-sidenav>
   <mat-sidenav-content>
-    <app-header (menuToggle)="menu.toggle()"></app-header>
+    <app-header (menuToggle)="menu.toggle()"
+    [user] = "user$ | async"
+    [isAuthorized] = "isAuthorized$ | async"
+
+    (signOut)="onSignOut()"></app-header>
     <main>
       <router-outlet></router-outlet>
     </main>
   </mat-sidenav-content>
 </mat-sidenav-container>
-
-
-<!-- <button (click)="onToggleSpinner()">Toggle Spinner</button>
-
-
-<app-spinner *ngIf="showSpinner"></app-spinner>
-
-<button appFilesUpload [multiple]="true" (changed)="onFilesChanged($event)">Subir imagenes</button>
-
-<button (click)="onSuccess()">Mensaje de exito</button>
-<button (click)="onError()">Mensaje de error</button>
-
-<button class="mat-snackbar_success">test class</button>
-<button class="mat-snackbar_error">test class</button> -->
