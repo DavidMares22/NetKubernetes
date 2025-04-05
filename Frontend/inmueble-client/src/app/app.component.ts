@@ -31,7 +31,7 @@ export class AppComponent implements OnInit{
     this.user$ = this.store.pipe(select(fromUser.getUser)) as Observable<fromUser.UserResponse>;
     this.isAuthorized$ = this.store.pipe(select(fromUser.getIsAuthorized)) as Observable<boolean>;
 
-    //Interceptar
+    //fetch token to check if user is logged in
     this.store.dispatch(new fromUser.Init());
 
   }

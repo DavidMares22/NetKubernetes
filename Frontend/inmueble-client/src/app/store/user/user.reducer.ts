@@ -24,7 +24,7 @@ const initialState : UserState = {
 export function reducer(state = initialState, action: fromActions.All | any) : UserState {
 
     switch(action.type) {
-        //init
+        //reducer is executed after the action is dispatched and before the state is updated
         case fromActions.Types.INIT: {
           return {...state, loading: true};
         }

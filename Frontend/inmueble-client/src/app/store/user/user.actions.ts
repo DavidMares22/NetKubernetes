@@ -23,7 +23,7 @@ export enum Types {
 }
 
 
-//INIT
+// actions are executed by the component and are sent to the reducer
 export class Init implements Action{
   readonly type = Types.INIT;
   constructor(){}

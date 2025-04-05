@@ -61,7 +61,7 @@ export class UserEffects {
       )
     )
   );
-
+// sideefect is executed after the action is dispatched and before the reducer is executed
   init: Observable<Action> = createEffect(() =>
     this.actions.pipe(
       ofType(fromActions.Types.INIT),
