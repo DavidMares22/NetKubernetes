@@ -1,6 +1,12 @@
-@NetKubernetesAngular_HostAddress = http://localhost:5207
+@NetKubernetesAngular_HostAddress = http://localhost:5000
 
-GET {{NetKubernetesAngular_HostAddress}}/weatherforecast/
+POST {{NetKubernetesAngular_HostAddress}}/api/usuario/login
+Content-Type: application/json
 Accept: application/json
+
+{
+  "email": "DaveMore@gmail.com",
+  "password": "Password123!"
+}
 
 ###
