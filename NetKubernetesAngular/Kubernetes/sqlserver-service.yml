@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mssql-service
+  labels:
+    name: mssql-service
+    app: app
+spec:
+  type: LoadBalancer
+  selector:
+    app: app
+    name: mssql-pod
+  ports:
+  - port: 31433       # Changed the external port to 31433 to avoid conflicts with the local SQL Server instance using port 1433
+    targetPort: 1433  # Internal port used by the SQL Server container
