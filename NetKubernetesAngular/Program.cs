@@ -24,13 +24,26 @@ namespace NetKubernetesAngular
         {
             var builder = WebApplication.CreateBuilder(args);
 
+        //    var connectionString = Environment.GetEnvironmentVariable("SQLServerConnection");
+
+        //     if (string.IsNullOrEmpty(connectionString))
+        //     {
+        //         connectionString = builder.Configuration.GetConnectionString("SQLServerConnection");
+        //     }
+
+           
 
             builder.Services.AddDbContext<AppDbContext>(opt => {
                 opt.LogTo(Console.WriteLine, new[] {DbLoggerCategory.Database.Command.Name},
                     LogLevel.Information).EnableSensitiveDataLogging();
 
-                opt.UseSqlServer(builder.Configuration.GetConnectionString("SQLServerConnection")!);
+                opt.UseSqlServer(builder.Configuration.GetConnectionString("SQLServerConnection"));
             });
+
+             builder.Logging.AddConsole(); 
+            var logger = builder.Services.BuildServiceProvider().GetRequiredService<ILogger<Program>>();
+            logger.LogInformation(" Connection String being used -> {ConnectionString}", builder.Configuration.GetConnectionString("SQLServerConnection"));
+
 
             builder.Services.AddScoped<IInmuebleRepository, InmuebleRepository>();
 
