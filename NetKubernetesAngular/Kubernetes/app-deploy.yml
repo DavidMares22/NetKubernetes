@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-deploy
+  labels:
+    name: app-deploy
+    app: app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: app
+      type: netapi
+  template:
+    metadata:
+      name: app-pod
+      labels:
+        name: app
+        type: netapi
+    spec:
+      containers:
+      - name: app-api
+        image: netkubernetesangular:latest
+        imagePullPolicy: Never
+        ports:
+          - containerPort: 5000
+        env:
+          - name : ConnectionStrings__SQLServerConnection
+            value: "Data Source=mssql-service,31433; Initial Catalog=InmuebleDB; User ID=sa; Password=NewStrongPassword1; TrustServerCertificate=True;"
