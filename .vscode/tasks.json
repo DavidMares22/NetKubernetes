@@ -96,6 +96,19 @@
             "netCore": {
                 "appProject": "${workspaceFolder}/NetKubernetesAngular/NetKubernetesAngular.csproj"
             }
+        },
+        {
+            "type": "docker-build",
+            "label": "docker-build",
+            "platform": "node",
+            "dockerBuild": {
+                "dockerfile": "${workspaceFolder}/Frontend/inmueble-client/Dockerfile",
+                "context": "${workspaceFolder}/Frontend/inmueble-client",
+                "pull": true
+            },
+            "node": {
+                "package": "${workspaceFolder}/Frontend/inmueble-client/package.json"
+            }
         }
     ]
 }

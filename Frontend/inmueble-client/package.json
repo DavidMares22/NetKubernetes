@@ -8,9 +8,9 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "start:dev": "ng serve --c=dev",
-    "buld:dev": "ng build --c=dev",
+    "build:dev": "ng build --c=dev",
     "start:prod": "ng serve --c=prod",
-    "buld:prod": "ng build --c=prod"
+    "build:prod": "ng build --c=prod"
   },
   "private": true,
   "dependencies": {
