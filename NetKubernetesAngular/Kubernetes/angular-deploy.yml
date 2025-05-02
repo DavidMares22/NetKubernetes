@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: angular-deploy
+  namespace: app
+spec:
+  selector:
+    matchLabels:
+      app: inmueble-app
+  template:
+    metadata:
+      namespace: app
+      labels:
+        app: inmueble-app
+    spec:
+      containers:
+      - name: angular-inmueble-app
+        image: inmuebleclient:latest
+        imagePullPolicy: Never
+        resources:
+          requests:
+            cpu: 1
+            memory: 2Gi
+          limits:
+            cpu: 1
+            memory: 4Gi
+        ports:
+        - containerPort: 80

@@ -22,3 +22,13 @@ spec:
             name: app-service
             port:
               number: 5000
+  - host: front.local
+    http:
+      paths:
+      - pathType: Prefix
+        path: /
+        backend:
+          service:
+            name: angular-inmueble-service
+            port:
+              number: 8090
