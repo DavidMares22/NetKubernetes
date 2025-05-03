@@ -1,6 +1,4 @@
-# @NetKubernetesAngular_HostAddress = http://localhost:8080
 @NetKubernetesAngular_HostAddress = http://app.local:8086
-#  @NetKubernetesAngular_HostAddress = app.local
 
 
 POST {{NetKubernetesAngular_HostAddress}}/api/usuario/login
