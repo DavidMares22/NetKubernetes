@@ -119,7 +119,8 @@ namespace NetKubernetesAngular
             // Configure CORS policy to allow any origin, method, and header
             builder.Services.AddCors(o => o.AddPolicy("corsapp", builder =>
             {
-                 builder.WithOrigins("http://front.local:8086")
+                //  builder.WithOrigins("http://front.local:8086") 
+                 builder.WithOrigins("http://localhost:5200","http://front.local:8086")
                 .AllowAnyMethod()
                 .AllowAnyHeader()
                 .AllowCredentials();

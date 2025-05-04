@@ -4,8 +4,8 @@ metadata:
   name: app-ingress
   namespace: app
   annotations:
-    nginx.ingress.kubernetes.io/enable-cors: "true"
-    nginx.ingress.kubernetes.io/cors-allow-origin: "*"
+    nginx.ingress.kubernetes.io/enable-cors: "false"
+    # nginx.ingress.kubernetes.io/cors-allow-origin: "*"
     # nginx.ingress.kubernetes.io/cors-allow-methods: "GET, PUT, POST, DELETE, OPTIONS"
     # nginx.ingress.kubernetes.io/cors-allow-headers: "Authorization, Content-Type, Accept"
     # nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
