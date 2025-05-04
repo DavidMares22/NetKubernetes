@@ -8,10 +8,10 @@ USER app
 FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG configuration=Release
 WORKDIR /src
-COPY ["NetKubernetesAngular/NetKubernetesAngular.csproj", "NetKubernetesAngular/"]
-RUN dotnet restore "NetKubernetesAngular/NetKubernetesAngular.csproj"
+COPY ["NetKubernetesAngular.csproj", "./"]
+RUN dotnet restore "NetKubernetesAngular.csproj"
 COPY . .
-WORKDIR "/src/NetKubernetesAngular"
+WORKDIR "/src"
 RUN dotnet build "NetKubernetesAngular.csproj" -c $configuration -o /app/build
 
 FROM build AS publish
