@@ -2,25 +2,23 @@ import { createSelector, createFeatureSelector } from "@ngrx/store";
 import { UserState } from './user.reducer';
 
 // Feature Selector: Retrieves the 'user' slice of the state from the global store
+// 'user' is the key under which the user state is stored in the global state
 export const getUserState = createFeatureSelector<UserState>('user');
 
-// Selector: Retrieves the 'entity' property from the 'user' state
-// This typically contains the full user object (e.g., name, email, etc.)
+//“First, get the user slice of the store using getUserState, 
+// then from that, return the entity (i.e. the actual user data).”
 export const getUser = createSelector(
   getUserState,
   (state) => state.entity
 );
 
-// Selector: Retrieves the 'loading' property from the 'user' state
-// Indicates whether a user-related operation (e.g., login, registration) is in progress
+ 
 export const getLoading = createSelector(
   getUserState,
   (state) => state.loading
 );
 
-// Selector: Determines if the user is authorized
-// Returns true if the 'email' property exists in the 'user' state, false otherwise
-// This is used to check if the user is logged in
+// double negation !! converts the value to a boolean
 export const getIsAuthorized = createSelector(
   getUserState,
   (state) => !!state.email

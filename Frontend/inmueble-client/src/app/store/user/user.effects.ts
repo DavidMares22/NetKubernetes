@@ -62,8 +62,9 @@ export class UserEffects {
               localStorage.setItem('token', response.token);
               this.router.navigate(['/']);
             }),
+            // This is where your store gets the data to update the state!
+            // The data is the response from the server
             map((response: UserResponse) => new fromActions.SignInEmailSuccess(response.email, response || null)),
-            //catchError(err => of(new fromActions.SignInEmailError(err.message)))
             catchError(err => {
 
               this.notification.error("Credenciales incorrectas");
@@ -76,19 +77,22 @@ export class UserEffects {
     )
   );
 
-
+//this effect listens to the INIT action and reads the token from localStorage
+//if the token exists, it makes a request to the server to get the user data
   init: Observable<Action> = createEffect(() =>
     this.actions.pipe(
       ofType(fromActions.Types.INIT),
       switchMap(async () => localStorage.getItem('token')),
       switchMap(token => {
-
+   //if the token exists, make a request to the server to get the user data
         if (token) {
           return this.httpClient.get<UserResponse>(`${environment.url}api/usuario`)
             .pipe(
+              // tap is used to perform side effects, like logging the user data
               tap((user: UserResponse) => {
                 console.log('data del usuario en sesion que viene del servidor=>', user);
               }),
+              //On success: Dispatch InitAuthorized with user data
               map((user: UserResponse) => new fromActions.InitAuthorized(user.email, user || null)),
               catchError(err => of(new fromActions.InitError(err.message)))
             )

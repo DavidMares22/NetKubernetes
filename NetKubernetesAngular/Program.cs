@@ -120,7 +120,7 @@ namespace NetKubernetesAngular
             builder.Services.AddCors(o => o.AddPolicy("corsapp", builder =>
             {
                 //  builder.WithOrigins("http://front.local:8086") 
-                 builder.WithOrigins("http://localhost:5200","http://front.local:8086")
+                 builder.WithOrigins("http://localhost:5200","https://front.local")
                 .AllowAnyMethod()
                 .AllowAnyHeader()
                 .AllowCredentials();

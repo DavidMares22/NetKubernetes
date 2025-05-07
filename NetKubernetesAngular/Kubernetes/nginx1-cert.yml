@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: nginx1-cert
+  namespace: app
+spec:
+  secretName: nginx1-tls-secret
+  issuerRef:
+    name: nginx1-clusterissuer
+    kind: ClusterIssuer
+  dnsNames:
+    - front.local
+    - app.local

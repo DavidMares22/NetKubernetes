@@ -5,12 +5,18 @@ metadata:
   namespace: app
   annotations:
     nginx.ingress.kubernetes.io/enable-cors: "false"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
     # nginx.ingress.kubernetes.io/cors-allow-origin: "*"
     # nginx.ingress.kubernetes.io/cors-allow-methods: "GET, PUT, POST, DELETE, OPTIONS"
     # nginx.ingress.kubernetes.io/cors-allow-headers: "Authorization, Content-Type, Accept"
     # nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
 spec:
   ingressClassName: nginx
+  tls:
+  - hosts:
+      - app.local
+      - front.local
+    secretName: nginx1-tls-secret
   rules:
   - host: app.local
     http:

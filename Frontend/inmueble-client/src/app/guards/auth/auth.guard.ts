@@ -27,17 +27,21 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
   }
 
   //check if user is logged in, if not redirect to login page
+
     private check() : Observable<boolean> {
+      // getUserState is a selector that retrieves the user state from the store
       return this.store.pipe(select(fromUser.getUserState)).pipe(
+        //only continue when the loading is false
         filter(state => !state.loading),
+        //tap is an rxjs operator that allows you to perform side effects
         tap( state => {
             // if user is not logged in, redirect to login page
           if(!state.email){
             this.router.navigate(['auth/login']);
           }
         }),
-        //map to true if user is logged in, false otherwise
-        //this is used to check if the user is logged in
+        //map transforms the data
+        // double negation !! converts the value to a boolean
         map(state => !!state.email)
       )
     }

@@ -20,7 +20,7 @@ const initialState : UserState = {
   loading: null,
   error: null
 }
-
+// the reducer function modifies the state and returns a new state
 export function reducer(state = initialState, action: fromActions.All | any) : UserState {
 
     switch(action.type) {
@@ -32,7 +32,8 @@ export function reducer(state = initialState, action: fromActions.All | any) : U
         case fromActions.Types.INIT_AUTHORIZED: {
           return {...state, loading: false, entity: action.user, email: action.email, error: null};
         }
-
+        // if not token in local storage, then the user is unauthorized
+        // and the state is reset to initial state
         case fromActions.Types.INIT_UNAUTHORIZED: {
           return {...state, loading: false, entity: null, email: null, error: null};
         }
