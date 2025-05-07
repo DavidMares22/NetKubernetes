@@ -40,9 +40,7 @@ namespace NetKubernetesAngular
                 opt.UseSqlServer(builder.Configuration.GetConnectionString("SQLServerConnection"));
             });
 
-             builder.Logging.AddConsole(); 
-            var logger = builder.Services.BuildServiceProvider().GetRequiredService<ILogger<Program>>();
-            logger.LogInformation(" Connection String being used -> {ConnectionString}", builder.Configuration.GetConnectionString("SQLServerConnection"));
+             
 
 
             builder.Services.AddScoped<IInmuebleRepository, InmuebleRepository>();
@@ -101,7 +99,9 @@ namespace NetKubernetesAngular
             builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 
             // Create a symmetric security key for JWT token signing
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]));
+            var jwtKey = builder.Configuration["Jwt:Key"] 
+             ?? throw new InvalidOperationException("Jwt:Key is missing in configuration.");
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey));
 
             // Configure JWT authentication
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
