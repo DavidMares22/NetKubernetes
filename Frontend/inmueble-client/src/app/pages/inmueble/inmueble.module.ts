@@ -12,7 +12,8 @@ import { reducers, effects } from './store';
   imports: [
     CommonModule,
     InmuebleRoutingModule,
-    StoreModule.forFeature('inmueble', reducers),
+    StoreModule.forFeature('inmueble', reducers), // Registering the reducers for the 'inmueble' feature
+    // This is where you register the effects for the 'inmueble' feature
     EffectsModule.forFeature(effects)
   ]
 })

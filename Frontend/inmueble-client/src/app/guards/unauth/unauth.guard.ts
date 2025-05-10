@@ -28,6 +28,7 @@ export class UnauthGuard implements CanActivate, CanActivateChild, CanLoad {
     
   //we use this method to check if the user is logged in or not
   //if the user is logged in, we redirect to the home page
+  // this is to avoid the user to access the login and register pages if he is already logged in
     private check() : Observable<boolean> {
       return this.store.pipe(select(fromUser.getUserState)).pipe(
         filter(state => !state.loading),

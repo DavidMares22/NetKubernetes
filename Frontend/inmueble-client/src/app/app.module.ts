@@ -69,7 +69,7 @@ const StoreDevtools = !environment.production ? StoreDevtoolsModule.instrument({
     NotificationModule.forRoot(),
     MatSidenavModule,
     StoreDevtools,
-    StoreModule.forRoot(reducers, {
+    StoreModule.forRoot(reducers, { // <-- NgRx uses the ActionReducerMap here
       runtimeChecks: {
         strictActionImmutability: true,
         strictStateImmutability:true
