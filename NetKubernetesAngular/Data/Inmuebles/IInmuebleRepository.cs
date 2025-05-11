@@ -8,7 +8,7 @@ namespace NetKubernetesAngular.Data.Inmuebles
 
         Task<IEnumerable<Inmueble>> GetAllInmuebles();
 
-        Task<Inmueble> GetInmuebleById(int id);
+        Task<Inmueble?> GetInmuebleById(int id);
 
         Task CreateInmueble(Inmueble inmueble);
 

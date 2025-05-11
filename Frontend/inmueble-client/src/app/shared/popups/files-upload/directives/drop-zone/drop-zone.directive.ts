@@ -10,6 +10,9 @@ export class DropZoneDirective {
 
   constructor() { }
 
+  // This event is fired when the dragged item is dropped on the drop zone
+  // The event contains the dataTransfer object which contains the files
+
   @HostListener('drop', ['$event'])
   onDrop($event: any) {
     $event.preventDefault();
@@ -18,12 +21,18 @@ export class DropZoneDirective {
   
   }
 
+  // This event is fired when the dragged item enters the drop zone
+  // without dropping it
+
   @HostListener('dragover', ['$event'])
   onDragOver($event : any) {
     $event.preventDefault();
     this.hovered.emit(true);
 
   }
+
+  // This event is fired when the dragged item leaves the drop zone
+  // without dropping it
 
   @HostListener('dragleave', ['$event'])
   onDragLeave($event : any) {

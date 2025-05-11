@@ -28,6 +28,7 @@ export class SaveEffects {
           this.httpClient.get<InmuebleResponse[]>(`${environment.url}api/inmueble`)
           .pipe(
             delay(1000),
+            //map is used for transforming the data|
             map((inmuebles: InmuebleResponse[]) => new fromActions.ReadSuccess(inmuebles) ),
             catchError(err => of(new fromActions.ReadError(err.message)))
           )
@@ -35,6 +36,13 @@ export class SaveEffects {
       )
   );
 
+  //this effect is called after the action is dispatched, 
+  // then it will call the httpClient to make a post request to the api
+  // after the post request is done, it will navigate to the list page
+  // if the post request is successful, it will dispatch the CreateSuccess action
+  // if the post request fails, it will dispatch the CreateError action
+  // the CreateSuccess action will be handled by the reducer
+  // the reducer will update the state with the new inmueble
 
   create: Observable<Action> = createEffect(() =>
     this.actions.pipe(

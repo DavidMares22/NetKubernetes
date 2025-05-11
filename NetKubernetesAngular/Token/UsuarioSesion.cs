@@ -14,11 +14,13 @@ namespace NetKubernetesAngular.Token
  
         public string ObtenerUsuarioSesion()
         {
-            // Access the current HTTP context and retrieve the user's claims.
+
+            var claimsDictionary = _httpContextAccessor.HttpContext!.User.Claims
+                          .ToDictionary(c => c.Type, c => c.Value);
+            // Get the userName from the claims of the current HTTP context.
             var userName = _httpContextAccessor.HttpContext!.User?.Claims?
                                 .FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
 
-            // Return the user's name identifier.
             return userName!;
         }
     }

@@ -6,7 +6,7 @@ const routes: Routes = [
   {
     path: 'nuevo',
     loadChildren: () => import('./pages/inmueble-nuevo/inmueble-nuevo.module').then(m =>m.InmuebleNuevoModule),
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard] //you can access this route only if you are logged in
   },
   {
     path: 'list',

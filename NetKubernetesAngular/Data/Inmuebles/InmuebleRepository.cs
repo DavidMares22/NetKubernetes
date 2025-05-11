@@ -64,11 +64,18 @@ namespace NetKubernetesAngular.Data.Inmuebles
             return await _contexto.Inmuebles!.ToListAsync();
         }
 
-        public async Task<Inmueble> GetInmuebleById(int id)
+        // public async Task<Inmueble> GetInmuebleById(int id)
+        // {
+        //     return await _contexto.Inmuebles!.FirstOrDefaultAsync(x => x.Id == id)!;
+        // }
+
+        public async Task<Inmueble?> GetInmuebleById(int id)
         {
-            return await _contexto.Inmuebles!.FirstOrDefaultAsync(x => x.Id == id)!;
+            return _contexto.Inmuebles == null
+                ? null
+                : await _contexto.Inmuebles.FirstOrDefaultAsync(x => x.Id == id);
         }
-        //By checking for >= 0, the method ensures that any unexpected negative result is treated as a failure.
+        // More or equal to 0 means that the changes were saved successfully.
         public async Task<bool> SaveChanges()
         {
             return ((await _contexto.SaveChangesAsync()) >= 0);

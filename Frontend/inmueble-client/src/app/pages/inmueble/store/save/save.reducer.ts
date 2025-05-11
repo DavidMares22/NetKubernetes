@@ -17,7 +17,9 @@ export const initialState: ListState = {
 
 
 export function reducer(state: ListState = initialState, action: fromActions.All | any) {
-
+// the action object contains the type and the payload
+// the type is the action type and the payload is the data that we want to send to the reducer
+// this data contains errors, inmuebles, inmueble, etc
     switch(action.type){
 
       case fromActions.Types.CREATE: {
