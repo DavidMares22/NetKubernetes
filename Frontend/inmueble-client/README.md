@@ -15,24 +15,24 @@ This is the frontend application for the **InmuebleClient** project, built with 
 
 ## Getting Started
 
-### Prerequisites
-Make sure you have the following installed:
-- [Node.js](https://nodejs.org/) (version 18 or higher recommended)
-- [Angular CLI](https://angular.io/cli) (version 17.0.3)
+### NgRx
 
-### Installation
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/your-repo/inmueble-client.git
-   cd inmueble-client
-   ```
+We use NgRx for organized data management across our app. It's like a single source of truth that all parts of our application can easily access and update.
 
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
+-   **Actions** - Simple messages telling our app what happened (e.g., "add item," "load data"). They have a `type` and can include extra info.
 
----
+-   **Effects** - These handle the "behind-the-scenes" work like fetching data from the internet. They listen for Actions and then trigger these tasks, often sending new Actions when done.
+
+-   **Reducer** - A pure function that decides how the app's data (state) changes based on an Action. It takes the current data and an Action, then returns the updated data. It never changes the old data directly.
+
+-   **Store** - The central place where all our app's data lives. It receives Actions and uses Reducers to update the data. When the data changes, it lets all the interested parts of our app know.
+
+- **Selector** - The selector can retrive part of the state from the store when a Component needs it
+
+
+![](https://media2.dev.to/dynamic/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F54856k8gqn4ovmph823c.png "NgRx State Management Lifecycle")
+
+
 
 ## Development Server
 
