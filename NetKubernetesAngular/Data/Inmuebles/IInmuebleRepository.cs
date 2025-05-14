@@ -13,5 +13,8 @@ namespace NetKubernetesAngular.Data.Inmuebles
         Task CreateInmueble(Inmueble inmueble);
 
         Task DeleteInmueble(int id);
+
+        Task UpdateInmueble(int id, Inmueble updatedInmueble);
+
     }
 }

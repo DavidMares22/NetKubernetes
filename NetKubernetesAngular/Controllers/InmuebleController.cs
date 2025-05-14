@@ -74,6 +74,29 @@ namespace NetKubernetesAngular.Controllers
         }
 
 
+        [HttpPut("{id}")]
+        public async Task<ActionResult> UpdateInmueble(int id, [FromBody] InmuebleRequestDto inmuebleDto)
+        {
+            var inmuebleModel = _mapper.Map<Inmueble>(inmuebleDto);
+            await _repository.UpdateInmueble(id, inmuebleModel);
+            var result = await _repository.SaveChanges();
+
+            if (!result)
+            {
+                throw new MiddlewareException(
+                    HttpStatusCode.InternalServerError,
+                    new { mensaje = "No se pudieron guardar los cambios." }
+                );
+            }
+
+            return NoContent(); // 204
+        }
+
+
+
+
+
+
 
     }
 }

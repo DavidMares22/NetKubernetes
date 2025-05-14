@@ -80,5 +80,38 @@ namespace NetKubernetesAngular.Data.Inmuebles
         {
             return ((await _contexto.SaveChangesAsync()) >= 0);
         }
+
+
+        public async Task UpdateInmueble(int id, Inmueble updatedInmueble)
+        {
+            var existingInmueble = await _contexto.Inmuebles!.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (existingInmueble == null)
+            {
+                throw new MiddlewareException(
+                    HttpStatusCode.NotFound,
+                    new { mensaje = $"No se encontró el inmueble con id {id}" }
+                );
+            }
+
+            // Optional: Check that the user making the update is the owner
+            var usuario = await _userManager.FindByNameAsync(_usuarioSesion.ObtenerUsuarioSesion());
+            if (usuario == null || existingInmueble.UsuarioId != Guid.Parse(usuario.Id))
+            {
+                throw new MiddlewareException(
+                    HttpStatusCode.Unauthorized,
+                    new { mensaje = "No tiene permisos para modificar este inmueble" }
+                );
+            }
+
+            // Update fields
+            existingInmueble.Nombre = updatedInmueble.Nombre;
+            existingInmueble.Direccion = updatedInmueble.Direccion;
+            existingInmueble.Precio = updatedInmueble.Precio;
+            existingInmueble.FechaCreacion = DateTime.Now;
+
+            _contexto.Inmuebles.Update(existingInmueble);
+        }
+
     }
 }
