@@ -19,5 +19,10 @@ export const getInmuebles = createSelector(
   (state: ListState) => state.inmuebles
 )
 
+export const getSelectedInmueble = createSelector(
+  getListState,
+  (state: ListState) => state.inmueble
+);
+
 
 

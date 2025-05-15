@@ -6,7 +6,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, delay, map, switchMap, tap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import * as fromActions from './save.actions';
-import { InmuebleCreateRequest, InmuebleResponse } from './save.models';
+import { InmuebleCreateRequest, InmuebleResponse, InmuebleUpdateRequest } from './save.models';
 import { environment } from 'environments/environment';
 
 type Action = fromActions.All;
@@ -21,19 +21,34 @@ export class SaveEffects {
     private notification: NotificationService
   ) { }
 
-  read: Observable<Action> = createEffect( () =>
-      this.actions.pipe(
-        ofType(fromActions.Types.READ),
-        switchMap( () =>
-          this.httpClient.get<InmuebleResponse[]>(`${environment.url}api/inmueble`)
+  read: Observable<Action> = createEffect(() =>
+    this.actions.pipe(
+      ofType(fromActions.Types.READ),
+      switchMap(() =>
+        this.httpClient.get<InmuebleResponse[]>(`${environment.url}api/inmueble`)
           .pipe(
-            delay(1000),
+            delay(500),
             //map is used for transforming the data|
-            map((inmuebles: InmuebleResponse[]) => new fromActions.ReadSuccess(inmuebles) ),
+            map((inmuebles: InmuebleResponse[]) => new fromActions.ReadSuccess(inmuebles)),
             catchError(err => of(new fromActions.ReadError(err.message)))
           )
-        )
       )
+    )
+  );
+
+  read_one: Observable<Action> = createEffect(() =>
+    this.actions.pipe(
+      ofType(fromActions.Types.READ_ONE),
+      switchMap((action: fromActions.ReadOne) =>
+        this.httpClient.get<InmuebleResponse>(`${environment.url}api/inmueble/${action.id}`)
+          .pipe(
+            delay(500),
+            //map is used for transforming the data|
+            map((inmueble: InmuebleResponse) => new fromActions.ReadOneSuccess(inmueble)),
+            catchError(err => of(new fromActions.ReadOneError(err.message)))
+          )
+      )
+    )
   );
 
   //this effect is called after the action is dispatched, 
@@ -64,6 +79,30 @@ export class SaveEffects {
       )
     )
   );
+
+  update: Observable<Action> = createEffect(() =>
+    this.actions.pipe(
+      ofType(fromActions.Types.UPDATE),
+      switchMap((action: fromActions.Update) =>
+        this.httpClient.put<InmuebleResponse>(
+          `${environment.url}api/inmueble/${action.id}`,
+          action.inmueble
+        ).pipe(
+          delay(500),
+          tap(() => {
+            this.notification.success('Inmueble actualizado correctamente');
+            this.router.navigate(['inmueble/list']);
+          }),
+          map((inmueble: InmuebleResponse) => new fromActions.UpdateSuccess(inmueble)),
+          catchError(err => {
+            this.notification.error(`Errores guardando el inmueble: ${err.message}`);
+            return of(new fromActions.UpdateError(err.message));
+          })
+        )
+      )
+    )
+  );
+
 
 
 

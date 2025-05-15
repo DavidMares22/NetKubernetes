@@ -12,7 +12,12 @@ const routes: Routes = [
     path: 'list',
     loadChildren: () => import('./pages/inmueble-list/inmueble-list.module').then(m =>m.InmuebleListModule),
     canActivate: [AuthGuard]
-  }
+  },
+  {
+    path: 'detalle/:id',
+    loadChildren: () => import('./pages/inmueble-detalle/inmueble-detalle.module').then(m =>m.InmuebleDetalleModule),
+    canActivate: [AuthGuard]
+  },
 ];
 
 @NgModule({
