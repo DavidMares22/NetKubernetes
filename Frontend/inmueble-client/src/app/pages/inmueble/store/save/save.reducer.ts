@@ -45,6 +45,26 @@ export function reducer(state: ListState = initialState, action: fromActions.All
     case fromActions.Types.UPDATE_ERROR: {
       return { ...state, loading: false, error: action.error }
     }
+    case fromActions.Types.DELETE: {
+      return { ...state, loading: true, error: null };
+    }
+
+    case fromActions.Types.DELETE_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        error: null,
+        inmuebles: state.inmuebles
+          ? state.inmuebles.filter(inmueble => inmueble.id !== action.id)
+          : null,
+        inmueble: state.inmueble?.id === action.id ? null : state.inmueble
+      };
+    }
+
+    case fromActions.Types.DELETE_ERROR: {
+      return { ...state, loading: false, error: action.error };
+    }
+
 
     case fromActions.Types.READ: {
       return { ...state, loading: true, error: null }

@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import * as fromRoot from '@app/store';
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, take } from 'rxjs';
 import * as fromList from '../../store/save';
 import { InmuebleResponse } from '../../store/save';
+import { ConfirmationService } from '@app/services/confirmation/confirmation.service';
 
 @Component({
   selector: 'app-inmueble-list',
@@ -18,7 +19,8 @@ export class InmuebleListComponent implements OnInit {
 
 
  constructor(
-    private store: Store<fromRoot.State>
+    private store: Store<fromRoot.State>,
+     private confirmation: ConfirmationService,
   ) { }
 
   ngOnInit(): void {
@@ -26,5 +28,17 @@ export class InmuebleListComponent implements OnInit {
     this.loading$ = this.store.pipe(select(fromList.getLoading));
     this.inmuebles$ = this.store.pipe(select(fromList.getInmuebles));
   }
+
+  deleteInmueble(id: number): void {
+   this.confirmation.confirm('¿Está seguro de que quiere eliminar este inmueble?')
+   .pipe(take(1))
+    .subscribe(confirmed => {
+      if (confirmed) {
+        this.store.dispatch(new fromList.Delete(id));
+      }
+    });
+}
+
+
 
 }

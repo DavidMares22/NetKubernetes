@@ -27,6 +27,20 @@ export enum Types {
 
 }
 
+export class Delete implements Action {
+  readonly type = Types.DELETE;
+  constructor(public id: number){}
+}
+
+export class DeleteSuccess implements Action {
+  readonly type = Types.DELETE_SUCCESS;
+  constructor(public id: number){}
+}
+export class DeleteError implements Action {
+  readonly type = Types.DELETE_ERROR;
+  constructor(public error: string){}
+}
+
 export class Read implements Action {
   readonly type = Types.READ;
   constructor(){}
@@ -102,6 +116,9 @@ export type All =
 | Update
 | UpdateSuccess
 | UpdateError
+| Delete
+| DeleteSuccess
+| DeleteError
 | ClearInmueble
 | Create | CreateSuccess | CreateError;
 

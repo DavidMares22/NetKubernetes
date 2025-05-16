@@ -33,6 +33,7 @@ import { effects, reducers } from './store';
 import { EffectsModule } from '@ngrx/effects';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptor } from './auth-interceptor';
+import { ConfirmationModule } from './services/confirmation/confirmation.module';
 
 
 const StoreDevtools = !environment.production ? StoreDevtoolsModule.instrument({maxAge:50}) : [];
@@ -67,6 +68,7 @@ const StoreDevtools = !environment.production ? StoreDevtoolsModule.instrument({
     IndicatorsModule,
     PopupsModule,
     NotificationModule.forRoot(),
+    ConfirmationModule.forRoot(),
     MatSidenavModule,
     StoreDevtools,
     StoreModule.forRoot(reducers, { // <-- NgRx uses the ActionReducerMap here

@@ -21,7 +21,7 @@
 
               <mat-card-actions>
                   <button mat-button [routerLink]="['/inmueble/detalle', inmueble.id]">Ver</button>
-                  <button mat-button>Comprar</button>
+                  <button mat-button  (click)="deleteInmueble(inmueble.id)">Eliminar</button>
               </mat-card-actions>
           </mat-card>
       </li>

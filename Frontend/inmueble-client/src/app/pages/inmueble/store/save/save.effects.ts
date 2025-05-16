@@ -103,6 +103,25 @@ export class SaveEffects {
     )
   );
 
+ delete: Observable<Action> = createEffect(() =>
+  this.actions.pipe(
+    ofType(fromActions.Types.DELETE),
+    switchMap((action: fromActions.Delete) =>
+      this.httpClient.delete(`${environment.url}api/inmueble/${action.id}`).pipe(
+        delay(500),
+        tap(() => {
+          this.notification.success('Inmueble eliminado correctamente');
+          // this.router.navigate(['inmueble/list']);
+        }),
+        map(() => new fromActions.DeleteSuccess(action.id)), // no need for response body
+        catchError(err => {
+          this.notification.error(`Errores eliminando el inmueble: ${err.message}`);
+          return of(new fromActions.DeleteError(err.message));
+        })
+      )
+    )
+  )
+);
 
 
 
