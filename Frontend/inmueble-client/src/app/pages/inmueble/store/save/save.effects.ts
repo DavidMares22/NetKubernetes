@@ -51,34 +51,44 @@ export class SaveEffects {
     )
   );
 
-  //this effect is called after the action is dispatched, 
-  // then it will call the httpClient to make a post request to the api
-  // after the post request is done, it will navigate to the list page
-  // if the post request is successful, it will dispatch the CreateSuccess action
-  // if the post request fails, it will dispatch the CreateError action
-  // the CreateSuccess action will be handled by the reducer
-  // the reducer will update the state with the new inmueble
 
   create: Observable<Action> = createEffect(() =>
     this.actions.pipe(
       ofType(fromActions.Types.CREATE),
       map((action: fromActions.Create) => action.inmueble),
       switchMap((request: InmuebleCreateRequest) =>
-        this.httpClient.post<InmuebleResponse>(`${environment.url}api/inmueble`, request)
-          .pipe(
-            delay(1000),
-            tap((response: InmuebleResponse) => {
-              this.router.navigate(['inmueble/list']);
-            }),
-            map((inmueble: InmuebleResponse) => new fromActions.CreateSuccess(inmueble)),
-            catchError(err => {
-              this.notification.error(`Errores guardando el inmueble: ${err.message}`);
-              return of(new fromActions.CreateError(err.message));
-            })
-          )
+        this.httpClient.post<InmuebleResponse>(`${environment.url}api/inmueble`, request).pipe(
+          delay(1000),
+          map((inmueble: InmuebleResponse) => new fromActions.CreateSuccess(inmueble)),
+          catchError(err => of(new fromActions.CreateError(err.message)))
+        )
       )
     )
   );
+
+  createSuccessEffects: Observable<void> = createEffect(() =>
+    this.actions.pipe(
+      ofType(fromActions.Types.CREATE_SUCCESS),
+      tap(() => {
+        this.notification.success('Inmueble guardado correctamente');
+        this.router.navigate(['inmueble/list']);
+      })
+    ),
+    { dispatch: false }
+  );
+
+
+  createErrorNotify = createEffect(() =>
+    this.actions.pipe(
+      ofType(fromActions.Types.CREATE_ERROR),
+      tap((action: fromActions.CreateError) => {
+        this.notification.error(`Errores guardando el inmueble: ${action.error}`);
+      })
+    ),
+    { dispatch: false }  // <== THIS IS REQUIRED
+  );
+
+
 
   update: Observable<Action> = createEffect(() =>
     this.actions.pipe(
@@ -89,39 +99,71 @@ export class SaveEffects {
           action.inmueble
         ).pipe(
           delay(500),
-          tap(() => {
-            this.notification.success('Inmueble actualizado correctamente');
-            this.router.navigate(['inmueble/list']);
-          }),
           map((inmueble: InmuebleResponse) => new fromActions.UpdateSuccess(inmueble)),
-          catchError(err => {
-            this.notification.error(`Errores guardando el inmueble: ${err.message}`);
-            return of(new fromActions.UpdateError(err.message));
-          })
+          catchError(err => of(new fromActions.UpdateError(err.message)))
+        )
+      )
+    )
+  );
+  updateSuccessNotify: Observable<void> = createEffect(() =>
+    this.actions.pipe(
+      ofType(fromActions.Types.UPDATE_SUCCESS),
+      tap(() => {
+        this.notification.success('Inmueble actualizado correctamente');
+        this.router.navigate(['inmueble/list']);
+      })
+    ),
+    { dispatch: false }
+  );
+
+  updateErrorNotify = createEffect(() =>
+    this.actions.pipe(
+      ofType(fromActions.Types.UPDATE_ERROR),
+      tap((action: fromActions.UpdateError) => {
+        this.notification.error(`Errores guardando el inmueble: ${action.error}`);
+      })
+    ),
+    { dispatch: false }  // <== THIS IS REQUIRED
+  );
+
+
+
+
+  delete = createEffect(() =>
+    this.actions.pipe(
+      ofType(fromActions.Types.DELETE),
+      switchMap((action: fromActions.Delete) =>
+        this.httpClient.delete(`${environment.url}api/inmueble/${action.id}`).pipe(
+          delay(500),
+          map(() => new fromActions.DeleteSuccess(action.id)),
+          catchError(err =>
+            of(new fromActions.DeleteError(err.message))
+          )
         )
       )
     )
   );
 
- delete: Observable<Action> = createEffect(() =>
-  this.actions.pipe(
-    ofType(fromActions.Types.DELETE),
-    switchMap((action: fromActions.Delete) =>
-      this.httpClient.delete(`${environment.url}api/inmueble/${action.id}`).pipe(
-        delay(500),
-        tap(() => {
-          this.notification.success('Inmueble eliminado correctamente');
-          // this.router.navigate(['inmueble/list']);
-        }),
-        map(() => new fromActions.DeleteSuccess(action.id)), // no need for response body
-        catchError(err => {
-          this.notification.error(`Errores eliminando el inmueble: ${err.message}`);
-          return of(new fromActions.DeleteError(err.message));
-        })
-      )
-    )
-  )
-);
+
+  deleteSuccessNotify = createEffect(() =>
+    this.actions.pipe(
+      ofType(fromActions.Types.DELETE_SUCCESS),
+      tap(() => {
+        this.notification.success('Inmueble eliminado correctamente');
+      })
+    ),
+    { dispatch: false }
+  );
+
+  deleteErrorNotify = createEffect(() =>
+    this.actions.pipe(
+      ofType(fromActions.Types.DELETE_ERROR),
+      tap((action: fromActions.DeleteError) => {
+        this.notification.error(`Errores eliminando el inmueble: ${action.error}`);
+      })
+    ),
+    { dispatch: false }
+  );
 
 
 
