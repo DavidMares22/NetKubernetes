@@ -9,5 +9,8 @@ namespace NetKubernetesAngular.Data.Usuarios
         Task<UsuarioResponseDto> Login(UsuarioLoginRequestDto request);
 
         Task<UsuarioResponseDto> RegistroUsuario(UsuarioRegistroRequestDto request);
+
+        Task<ForgotPasswordResponseDto> ForgotPassword(ForgotPasswordRequestDto request);
+        Task<ResetPasswordResponseDto> ResetPasswordAsync(ResetPasswordRequestDto request);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NetKubernetesAngular.Data.Usuarios;
 using NetKubernetesAngular.Dtos.UsuarioDto;
@@ -16,6 +17,33 @@ namespace NetKubernetesAngular.Controllers
         {
             _repository = repository;
         }
+
+
+        [HttpPost("resetpassword")]
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequestDto request)
+        {
+            var result = await _repository.ResetPasswordAsync(request);
+            if (!result.Success)
+            {
+                return BadRequest(result.Errors);
+            }
+            return Ok("Contraseña ha sido cambiada exitosamente.");
+        }
+
+
+        [HttpPost("forgotpassword")]
+        public async Task<ActionResult<ForgotPasswordResponseDto>> ForgotPassword([FromBody] ForgotPasswordRequestDto request)
+        {
+            var result = await _repository.ForgotPassword(request);
+
+            if (result == null)
+            {
+                return BadRequest("Error al enviar el correo");
+            }
+
+            return Ok(result);
+        }
+
 
 
         [AllowAnonymous]

@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using NetKubernetesAngular.Data.Usuarios;
 using NetKubernetesAngular.Models;
+using NetKubernetesAngular.Services;
 using NetKubernetesAngular.Token;
 using System.Text;
 using Microsoft.AspNetCore.Authentication;
@@ -79,6 +80,8 @@ namespace NetKubernetesAngular
             // Create an IdentityBuilder for the Usuario entity
             var identityBuilder = new IdentityBuilder(builderSecurity.UserType, builder.Services);
 
+            identityBuilder.AddDefaultTokenProviders();
+
             // Add Entity Framework stores for the Identity system
             identityBuilder.AddEntityFrameworkStores<AppDbContext>();
 
@@ -125,6 +128,10 @@ namespace NetKubernetesAngular
                 .AllowAnyHeader()
                 .AllowCredentials();
             }));
+
+            var emailConfig = builder.Services.Configure<EmailConfiguration>(builder.Configuration.GetSection("EmailConfiguration"));
+            builder.Services.AddSingleton(emailConfig);
+            builder.Services.AddTransient<IEmailService, EmailService>();
 
             var app = builder.Build();
 
