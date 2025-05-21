@@ -8,7 +8,6 @@ export enum Types {
   INIT_UNAUTHORIZED = '[User] Init: Unuthorized',
   INIT_ERROR = '[User] Init: Error',
 
-
   SIGN_IN_EMAIL = '[User] Login: Start',
   SIGN_IN_EMAIL_SUCCESS = '[User] Login: Success',
   SIGN_IN_EMAIL_ERROR = '[User] Login: Error',
@@ -20,6 +19,10 @@ export enum Types {
   SIGN_OUT_EMAIL = '[User] Logout: Start',
   SIGN_OUT_EMAIL_SUCCESS = '[User] Logout: Success',
   SIGN_OUT_EMAIL_ERROR = '[User] Logout: Error',
+
+  FORGOT_PASSWORD = '[User] Forgot Password: Start',
+  FORGOT_PASSWORD_SUCCESS = '[User] Forgot Password: Success',
+  FORGOT_PASSWORD_ERROR = '[User] Forgot Password: Error',
 
 }
 
@@ -95,6 +98,23 @@ export class SignOutError implements Action{
   constructor(public error:string){}
 }
 
+export class ForgotPassword implements Action {
+  readonly type = Types.FORGOT_PASSWORD;
+  constructor(public payload: { email: string; clientUri: string }) {}
+}
+
+
+export class ForgotPasswordSuccess implements Action {
+  readonly type = Types.FORGOT_PASSWORD_SUCCESS;
+  constructor() {}
+}
+
+export class ForgotPasswordError implements Action {
+  readonly type = Types.FORGOT_PASSWORD_ERROR;
+  constructor(public error: string) {}
+}
+
+
 export type All =
         Init
       | InitAuthorized
@@ -108,4 +128,7 @@ export type All =
       | SignUpEmailError
       | SignOut
       | SignOutSuccess
-      | SignOutError;
+      | SignOutError
+      | ForgotPassword
+      | ForgotPasswordSuccess
+      | ForgotPasswordError;

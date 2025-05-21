@@ -32,6 +32,7 @@ namespace NetKubernetesAngular.Controllers
 
 
         [HttpPost("forgotpassword")]
+        [AllowAnonymous]
         public async Task<ActionResult<ForgotPasswordResponseDto>> ForgotPassword([FromBody] ForgotPasswordRequestDto request)
         {
             var result = await _repository.ForgotPassword(request);

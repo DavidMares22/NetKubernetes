@@ -77,14 +77,14 @@ export class UserEffects {
     )
   );
 
-//this effect listens to the INIT action and reads the token from localStorage
-//if the token exists, it makes a request to the server to get the user data
+  //this effect listens to the INIT action and reads the token from localStorage
+  //if the token exists, it makes a request to the server to get the user data
   init: Observable<Action> = createEffect(() =>
     this.actions.pipe(
       ofType(fromActions.Types.INIT),
       switchMap(async () => localStorage.getItem('token')),
       switchMap(token => {
-   //if the token exists, make a request to the server to get the user data
+        //if the token exists, make a request to the server to get the user data
         if (token) {
           return this.httpClient.get<UserResponse>(`${environment.url}api/usuario`)
             .pipe(
@@ -102,6 +102,45 @@ export class UserEffects {
       }
       )
     )
+  );
+
+
+  forgotPassword: Observable<Action> = createEffect(() =>
+  this.actions.pipe(
+    ofType(fromActions.Types.FORGOT_PASSWORD),
+    map((action: fromActions.ForgotPassword) => action.payload),
+    switchMap(({ email, clientUri }) =>
+      this.httpClient.post(`${environment.url}api/usuario/forgotpassword`, {
+        email,
+        clientUri
+      }).pipe(
+        map(() => new fromActions.ForgotPasswordSuccess()),
+        catchError(err => of(new fromActions.ForgotPasswordError(err.message)))
+      )
+    )
+  )
+);
+
+
+  forgotPasswordSuccessNotify = createEffect(() =>
+    this.actions.pipe(
+      ofType(fromActions.Types.FORGOT_PASSWORD_SUCCESS),
+      tap(() => {
+        this.notification.success('Enlace de restablecimiento enviado al correo electrónico');
+        this.router.navigate(['/auth/login']);
+      })
+    ),
+    { dispatch: false }
+  );
+
+  forgotPasswordErrorNotify = createEffect(() =>
+    this.actions.pipe(
+      ofType(fromActions.Types.FORGOT_PASSWORD_ERROR),
+      tap((action: fromActions.ForgotPasswordError) => {
+        this.notification.error(`Error al enviar el enlace: ${action.error}`);
+      })
+    ),
+    { dispatch: false }
   );
 
 
