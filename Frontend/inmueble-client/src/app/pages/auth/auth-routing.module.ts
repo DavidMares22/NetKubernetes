@@ -22,6 +22,11 @@ const routes: Routes = [
     canActivate: [UnauthGuard]
   },
   {
+    path: 'reset-password',
+    loadChildren: () => import('./pages/reset-password/reset-password.module').then(m=>m.ResetPasswordModule),
+    canActivate: [UnauthGuard]
+  },
+  {
     path: '**',
     pathMatch: 'full',
     redirectTo: 'login'

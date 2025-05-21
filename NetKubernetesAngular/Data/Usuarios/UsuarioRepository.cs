@@ -148,7 +148,7 @@ namespace NetKubernetesAngular.Data.Usuarios
             }
 
             var token = await _userManager.GeneratePasswordResetTokenAsync(usuario);
-            var callbackUrl = $"{request.clientUri}/reset-password?token={Uri.EscapeDataString(token)}&email={Uri.EscapeDataString(request.Email)}";
+            var callbackUrl = $"{request.clientUri}/auth/reset-password?token={Uri.EscapeDataString(token)}&email={Uri.EscapeDataString(request.Email)}";
 
             // Send email (assumes you have IEmailService injected)
             var emailSent = await _emailService.SendPasswordResetEmailAsync(request.Email, callbackUrl);
@@ -180,8 +180,9 @@ namespace NetKubernetesAngular.Data.Usuarios
                     Errors = new[] { "User not found." }
                 };
             }
+            var decodedToken = Uri.UnescapeDataString(request.Token);
 
-            var resetResult = await _userManager.ResetPasswordAsync(user, request.Token, request.NewPassword);
+            var resetResult = await _userManager.ResetPasswordAsync(user, decodedToken, request.NewPassword);
 
             if (!resetResult.Succeeded)
             {

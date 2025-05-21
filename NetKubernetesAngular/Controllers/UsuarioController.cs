@@ -20,6 +20,7 @@ namespace NetKubernetesAngular.Controllers
 
 
         [HttpPost("resetpassword")]
+        [AllowAnonymous]
         public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequestDto request)
         {
             var result = await _repository.ResetPasswordAsync(request);

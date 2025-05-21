@@ -91,6 +91,19 @@ export function reducer(state = initialState, action: fromActions.All | any): Us
       return { ...state, loading: false };
     }
 
+    case fromActions.Types.RESET_PASSWORD: {
+      return { ...state, loading: true };
+    }
+
+    case fromActions.Types.RESET_PASSWORD_SUCCESS: {
+      return { ...state, loading: false };
+    }
+
+    case fromActions.Types.RESET_PASSWORD_ERROR: {
+      return { ...state, loading: false, error: action.error };
+    }
+
+
 
     default: {
       return state;

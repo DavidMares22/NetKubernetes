@@ -106,20 +106,20 @@ export class UserEffects {
 
 
   forgotPassword: Observable<Action> = createEffect(() =>
-  this.actions.pipe(
-    ofType(fromActions.Types.FORGOT_PASSWORD),
-    map((action: fromActions.ForgotPassword) => action.payload),
-    switchMap(({ email, clientUri }) =>
-      this.httpClient.post(`${environment.url}api/usuario/forgotpassword`, {
-        email,
-        clientUri
-      }).pipe(
-        map(() => new fromActions.ForgotPasswordSuccess()),
-        catchError(err => of(new fromActions.ForgotPasswordError(err.message)))
+    this.actions.pipe(
+      ofType(fromActions.Types.FORGOT_PASSWORD),
+      map((action: fromActions.ForgotPassword) => action.payload),
+      switchMap(({ email, clientUri }) =>
+        this.httpClient.post(`${environment.url}api/usuario/forgotpassword`, {
+          email,
+          clientUri
+        }).pipe(
+          map(() => new fromActions.ForgotPasswordSuccess()),
+          catchError(err => of(new fromActions.ForgotPasswordError(err.message)))
+        )
       )
     )
-  )
-);
+  );
 
 
   forgotPasswordSuccessNotify = createEffect(() =>
@@ -143,6 +143,55 @@ export class UserEffects {
     { dispatch: false }
   );
 
+  resetPassword: Observable<Action> = createEffect((): Observable<Action> =>
+  this.actions.pipe(
+    ofType(fromActions.Types.RESET_PASSWORD),
+    map((action: fromActions.ResetPassword) => action.payload),
+    switchMap(({ email, token, password }) =>
+      this.httpClient.post(`${environment.url}api/usuario/resetpassword`, {
+        Email: email,
+        Token: token,
+        NewPassword: password
+      }, { observe: 'response', responseType: 'text' }).pipe( // observe full response
+        map(response => {
+          if (response.status === 200) {
+            return new fromActions.ResetPasswordSuccess();
+          } else {
+            return new fromActions.ResetPasswordError('Respuesta inesperada del servidor');
+          }
+        }),
+        catchError(err => {
+          const errorMessage = Array.isArray(err.error)
+            ? err.error.join(', ')
+            : err.error || 'Error desconocido';
+          return of(new fromActions.ResetPasswordError(errorMessage));
+        })
+      )
+    )
+  )
+);
+
+
+  resetPasswordSuccessNotify = createEffect(() =>
+    this.actions.pipe(
+      ofType(fromActions.Types.RESET_PASSWORD_SUCCESS),
+      tap(() => {
+        this.notification.success('Contraseña restablecida con éxito');
+        this.router.navigate(['/auth/login']);
+      })
+    ),
+    { dispatch: false }
+  );
+
+  resetPasswordErrorNotify = createEffect(() =>
+    this.actions.pipe(
+      ofType(fromActions.Types.RESET_PASSWORD_ERROR),
+      tap((action: fromActions.ResetPasswordError) => {
+        this.notification.error(`Error al restablecer la contraseña: ${action.error}`);
+      })
+    ),
+    { dispatch: false }
+  );
 
 
 }

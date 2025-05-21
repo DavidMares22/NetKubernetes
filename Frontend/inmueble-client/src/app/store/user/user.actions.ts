@@ -24,6 +24,10 @@ export enum Types {
   FORGOT_PASSWORD_SUCCESS = '[User] Forgot Password: Success',
   FORGOT_PASSWORD_ERROR = '[User] Forgot Password: Error',
 
+  RESET_PASSWORD = '[User] Reset Password: Start',
+  RESET_PASSWORD_SUCCESS = '[User] Reset Password: Success',
+  RESET_PASSWORD_ERROR = '[User] Reset Password: Error',
+
 }
 
 //INIT -> EL USUARIO ESTA EN SESION?
@@ -103,7 +107,6 @@ export class ForgotPassword implements Action {
   constructor(public payload: { email: string; clientUri: string }) {}
 }
 
-
 export class ForgotPasswordSuccess implements Action {
   readonly type = Types.FORGOT_PASSWORD_SUCCESS;
   constructor() {}
@@ -113,6 +116,22 @@ export class ForgotPasswordError implements Action {
   readonly type = Types.FORGOT_PASSWORD_ERROR;
   constructor(public error: string) {}
 }
+
+export class ResetPassword implements Action {
+  readonly type = Types.RESET_PASSWORD;
+  constructor(public payload: { email: string; token: string; password: string;  }) {}
+}
+
+export class ResetPasswordSuccess implements Action {
+  readonly type = Types.RESET_PASSWORD_SUCCESS;
+  constructor() {}
+}
+
+export class ResetPasswordError implements Action {
+  readonly type = Types.RESET_PASSWORD_ERROR;
+  constructor(public error: string) {}
+}
+
 
 
 export type All =
@@ -131,4 +150,7 @@ export type All =
       | SignOutError
       | ForgotPassword
       | ForgotPasswordSuccess
-      | ForgotPasswordError;
+      | ForgotPasswordError
+      | ResetPassword
+      | ResetPasswordSuccess
+      | ResetPasswordError;
